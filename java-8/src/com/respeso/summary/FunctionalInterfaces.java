@@ -10,7 +10,21 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
-public class FunctionalInterfacesExamples{
+/**
+ * Java 8 Functional Interfaces. Use examples of
+ * 
+ * Consumer<>
+ * BiConsumer<>
+ * Predicate<>
+ * BiPredicate<>
+ * Function<>
+ * BiFunction<>
+ * UnaryOperator and BinaryOperation<>
+ * Supplier<>
+ * 
+ * @author Rodrigo Espeso
+ */
+public class FunctionalInterfaces{
 	
 	/*
 	 * Consumer<T>
@@ -19,8 +33,8 @@ public class FunctionalInterfacesExamples{
 	 * of a void method.
 	 * 
 	 */
-	static Consumer<String> consumerLambda = (s) -> {System.out.println(s.concat(" with Lambda"));}; 
-	static Consumer<String> consumerPost = (s) -> {System.out.println(s.concat(" with Lambda again"));}; 
+	static Consumer<String> concatUsingLambda = (s) -> {System.out.println(s.concat(" with Lambda"));}; 
+	static Consumer<String> otherConcat = (s) -> {System.out.println(s.concat(" with Lambda again"));}; 
 
 	/*
 	 * BiConsumer <T, U>
@@ -86,25 +100,18 @@ public class FunctionalInterfacesExamples{
 	
     public static void main(String[] args) {
 
-    	usesOfConsumer();
-    	
-    	usesOfBiConsumer();
-    	
-		usesOfPredicate();
-    	
-    	usesOfBiPredicate();
-    	
-		usesOfFunction();
-
-		usesOfBiFunction();
-
-		usesOfUnaryOperatorAndBinaryOperator();
-		
-		usesOfSupplier();
+    	consumer();
+    	biConsumer();
+		predicate();
+    	biPredicate();
+		function();
+		biFunction();
+		unaryOperatorAndBinaryOperator();
+		supplier();
 
     }
     
-	private static void usesOfConsumer() {
+	private static void consumer() {
 		/*
 		 * Consumer<T> methods. 
 		 * - accept(T param) : the input param
@@ -112,13 +119,13 @@ public class FunctionalInterfacesExamples{
 		 */
     	String str = "example";
     	System.out.print("Example for Consumer with lambda: ");
-    	consumerLambda.accept(str);
+    	concatUsingLambda.accept(str);
     	
     	System.out.print("Example for Consumer using chaining: ");
-    	consumerLambda.andThen(consumerPost).accept("with other "+str);
+    	concatUsingLambda.andThen(otherConcat).accept("with other "+str);
 	}
 	
-	private static void usesOfBiConsumer() {
+	private static void biConsumer() {
 		/*
 		 * BiConsumer<T, U> methods: 
 		 * (same as Consumer<T>)
@@ -131,7 +138,7 @@ public class FunctionalInterfacesExamples{
 		biConsumer.andThen(biConsumerPost).accept("with other "+str, 4);
 	}
 	
-	private static void usesOfPredicate() {
+	private static void predicate() {
 		/*
 		 * Predicate<T> methods.
 		 * - test(T param) : to input param
@@ -149,7 +156,7 @@ public class FunctionalInterfacesExamples{
 		System.out.println("Example for Predicate using OR chaining: "+result); // expected true
 	}
 	
-	private static void usesOfBiPredicate() {
+	private static void biPredicate() {
 		/*
 		 * BiPredicate<T, U> methods.
 		 * (same as Predicate<T>)
@@ -163,7 +170,7 @@ public class FunctionalInterfacesExamples{
 		System.out.println("Example for BiPredicate using OR chaining: "+result); // expected true
 	}
 	
-	private static void usesOfFunction() {
+	private static void function() {
 		/*
 		 * Function<T, U> methods.
 		 * - apply(T param) : to receive the param
@@ -183,7 +190,7 @@ public class FunctionalInterfacesExamples{
 		System.out.println("Example for Function using compose chaining: "+sum); // expected 12
 	}
 	
-	private static void usesOfBiFunction() {
+	private static void biFunction() {
 		/*
 		 * BiFunction<T, U> methods. apply(T param) : to receive the param
 		 * - andThen(Function <?> f) : function to be executed over the result of the
@@ -199,7 +206,7 @@ public class FunctionalInterfacesExamples{
 		System.out.println("Example for Function using andThen chaining: "+sum); // expected 11
 	}
 
-	private static void usesOfUnaryOperatorAndBinaryOperator() {
+	private static void unaryOperatorAndBinaryOperator() {
 		
 		/*
 		 * UnaryOperator<T, methods.
@@ -232,7 +239,7 @@ public class FunctionalInterfacesExamples{
 		System.out.println("Example for BinaryOperator using andThen chaining: "+sum); // expected 11
 	}
 
-	private static void usesOfSupplier() {
+	private static void supplier() {
 		/*
 		 * Supplier<T> methods.
 		 * - get() : Perform and return
@@ -241,6 +248,5 @@ public class FunctionalInterfacesExamples{
 		String str = exampleString.get();
 		System.out.println("Example for Supplier: "+str); // expected "example"
 	}
-	
 	
 }
