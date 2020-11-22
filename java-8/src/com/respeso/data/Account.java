@@ -7,11 +7,13 @@ public class Account{
 	
 	private String name;
 	private String currency;
-	private Long balance;
+	private Double balance;
 	private Boolean isShared;
 	private List<Holder> holders;
 	
-	public Account(String name, String currency, Long balance, Boolean isShared, List<Holder> holders) {
+	public Account() {}
+	
+	public Account(String name, String currency, Double balance, Boolean isShared, List<Holder> holders) {
 		this.name = name;
 		this.currency = currency;
 		this.balance = balance;
@@ -19,7 +21,7 @@ public class Account{
 		this.holders = holders;
 	}
 	
-	public Account(String name, String currency, Long balance, Boolean isShared, Holder... holder) {
+	public Account(String name, String currency, Double balance, Boolean isShared, Holder... holder) {
 		this.name = name;
 		this.currency = currency;
 		this.balance = balance;
@@ -43,11 +45,11 @@ public class Account{
 		this.currency = currency;
 	}
 
-	public Long getBalance() {
+	public Double getBalance() {
 		return balance;
 	}
 
-	public void setBalance(Long balance) {
+	public void setBalance(Double balance) {
 		this.balance = balance;
 	}
 

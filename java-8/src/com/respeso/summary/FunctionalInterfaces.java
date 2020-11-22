@@ -10,9 +10,13 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+import com.respeso.data.Account;
+import com.respeso.data.Holder;
+import com.respeso.data.factory.Factory;
+
 /**
- * Java 8 Functional Interfaces. Use examples of
- * 
+ * Java 8 Functional Interfaces. 
+ *  
  * Consumer<>
  * BiConsumer<>
  * Predicate<>
@@ -33,8 +37,8 @@ public class FunctionalInterfaces{
 	 * of a void method.
 	 * 
 	 */
-	static Consumer<String> concatUsingLambda = (s) -> {System.out.println(s.concat(" with Lambda"));}; 
-	static Consumer<String> otherConcat = (s) -> {System.out.println(s.concat(" with Lambda again"));}; 
+	static Consumer<Holder> completeName = h -> System.out.print(h.getName() + " "+ h.getLastName()); 
+	static Consumer<Holder> concatDetail = h -> System.out.print(" "+h+" is client of the bank"); 
 
 	/*
 	 * BiConsumer <T, U>
@@ -42,21 +46,17 @@ public class FunctionalInterfaces{
 	 * Accepts 2 params and operate with them, but do not return nothing: implementation
 	 * of a void method.
 	 */
-	static BiConsumer<String, Integer> biConsumer = (s, i) -> {System.out.println(s.concat(" "+i.toString()));}; 
-	static BiConsumer<String, Integer> biConsumerPost = (s, i) -> {
-		i++;
-		System.out.println(s.concat(" consumed "+i));
-	};
-	
-	
+	static BiConsumer<Holder, Account> holderInfo1 = (h, a) -> System.out.print("Holder ID :"+h.getId() +" - Account: " + a.getName() +". "); 
+	static BiConsumer<Holder, Account> holderInfo2 = (h, a) -> System.out.print("Age: " +h.getAge() +" - Balance: " + a.getBalance()+"."); 
+
 	/*
 	 * Predicate<T>
 	 * 
 	 * Accepts a param an evaluate an expression using it. Implementation of a
 	 * boolean return method.
 	 */
-	static Predicate<Integer> isEven = (i)->{return i%2 == 0;};
-	static Predicate<Integer> isBiggerThanTen = i-> i>10; // note how the lambda can be reduced
+	static Predicate<Account> isEuroAccount = a-> "EUR".equals(a.getCurrency());
+	static Predicate<Account> isHealthyAccount = a-> a.getBalance()>30000L; // note how the lambda can be reduced
 	
 	/*
 	 * BiPredicate<T, U>
@@ -64,8 +64,7 @@ public class FunctionalInterfaces{
 	 * Accepts 2 params an evaluate an expression using them. Implementation of a
 	 * boolean return method.
 	 */
-	static BiPredicate<String, String> areEquals = (s1, s2) -> {return s1.equals(s2);};
-	static BiPredicate<String, String> leftSmallerThanRight = (s1, s2) -> {return s1.length()<s2.length();};
+	static BiPredicate<Holder, Account> isOwner = (h, a) -> a.getHolders().contains(h);
 	
 	/*
 	 * Function<T, U> 
@@ -73,180 +72,184 @@ public class FunctionalInterfaces{
 	 * Implements a function with one T type param and return a U
 	 * type value
 	 */
-	static Function<Integer, Integer> increaseOne = i -> {return ++i;}; 
-	static Function<Integer, Integer> duplicate = i -> {return i*2;}; 
 	
+	static Function<Account, Holder> getFirstHolder = a -> a.getHolders().get(0); 
+	static Function<Holder, String> getNameAndLastName = h -> h.getName()+" "+h.getLastName(); 
+
 	/*
 	 * BiFunction<T, U, V> 
 	 * 
 	 * Implements a function with two params (types T and U) and
 	 * return a V type value
 	 */
-	static BiFunction<Integer, Integer, Integer> add = (i1, i2) -> {return i1 + i2;}; 
-	static BiFunction<Integer, Integer, Integer> multiply = (i1, i2) -> {return i1 * i2;}; 
+	static BiFunction<Account, String, Account> changeCurrency = (a, c) -> {
+		if ("EUR".equals(c) && !"EUR".equals(a.getCurrency())) {
+			a.setCurrency("EUR");
+			a.setBalance(a.getBalance() * 0.83);
+		} else if ("USD".equals(c) && !"USD".equals(a.getCurrency())) {
+			a.setCurrency("USD");
+			a.setBalance(a.getBalance() * 1.17);
+		}
+		return a;
+	};
+	
+	static BiFunction<Account, String, Account> changeAccountName = (a, s) -> {
+		a.setName(s);
+		return a;
+	};
 	
 	/*
 	 * UnaryOperator<T> and BinaryOperation<T, U>>
 	 */
-	static UnaryOperator<Integer> increaseOneUO = i -> {return ++i;}; // the type is shared with the param and return
-	static BinaryOperator<Integer> addBO = (i1, i2) -> {return i1 + i2;}; // the type is shared with the param and return
+	static UnaryOperator<Double> aTax = b -> b - b*0.005; // the type is shared with the param and return
+	static UnaryOperator<Double> bTax = b -> b-100.0; // the type is shared with the param and return
+	static BinaryOperator<Double> addSalary = (b, s) -> b + s; // the type is shared with the param and return
 	
 	/*
 	 * Supplier<T>
 	 * 
 	 * Implements no param function with T type return
 	 */
-	static Supplier<String> exampleString = ()->{return "example";};
-	
-    public static void main(String[] args) {
+	static Supplier<Account> emptyAccounContructor = Account::new;
+	static Supplier<Account> defaultAccounContructor = () -> Factory.getAccountsWithHolders().get(0);
+	static Supplier<String> bankInfo = () -> "Union Associates BBank LLC";
+    
+	public static void main(String[] args) {
 
-    	consumer();
-    	biConsumer();
-		predicate();
-    	biPredicate();
-		function();
-		biFunction();
-		unaryOperatorAndBinaryOperator();
-		supplier();
+    	consumer_showHolderData();
+    	biConsumer_showHolderInfo();
+		predicate_isEuroAccountAndHealthy();
+    	biPredicate_isHolderOwnerOfAccount();
+		function_holderData();
+		biFunction_changeAccountCurrency();
+		unaryOperatorWithAndThenAndCompose_calculateTax();
+		binaryOperator_addSalary();
+		supplier_accountConstructor();
 
     }
     
-	private static void consumer() {
-		/*
-		 * Consumer<T> methods. 
-		 * - accept(T param) : the input param
-		 * - andThen(Consumer<? super T> cons) to perform chaining
-		 */
-    	String str = "example";
-    	System.out.print("Example for Consumer with lambda: ");
-    	concatUsingLambda.accept(str);
+	/*
+	 * Consumer<T> methods. 
+	 * - accept(T param) : the input param
+	 * - andThen(Consumer<? super T> cons) to perform chaining
+	 */
+	private static void consumer_showHolderData() {
+    	Holder holder = Factory.getHolders().get(0);
+    	System.out.print("Consumer 1:\n\t");
+    	completeName.accept(holder);
+    	System.out.print("\nConsumer 2 (andThen)\n\t");
+    	completeName.andThen(concatDetail).accept(holder);
+	}
+	
+	/*
+	 * BiConsumer<T, U> methods: 
+	 * (same as Consumer<T>)
+	 */
+	private static void biConsumer_showHolderInfo() {
+    	Account account = Factory.getAccountsWithHolders().get(0);
+		Holder holder = account.getHolders().get(0);
     	
-    	System.out.print("Example for Consumer using chaining: ");
-    	concatUsingLambda.andThen(otherConcat).accept("with other "+str);
+    	System.out.print("\nBiConsumer:\n\t");
+    	holderInfo1.andThen(holderInfo2).accept(holder, account);
+	}	
+
+	
+	/*
+	 * Predicate<T> methods.
+	 * - test(T param) : to input param
+	 * - and(Predicate<? super T> pred) : AND operation with other Predicate, performing chaining
+	 * - or(Perdicate<? super T> pred) : OR operation with other Predicate, performing chaining
+	 */
+	private static void predicate_isEuroAccountAndHealthy() {
+		Account account = Factory.getAccountsWithHolders().get(0);
+		System.out.println("\nPredicate: Show account info: "+account);
+		boolean result = isEuroAccount.test(account);
+		System.out.println("\tIs this a euro account? "+result); // expected true
+	
+		result = isEuroAccount.and(isHealthyAccount).test(account);
+		System.out.println("\tIs this a euro AND healthy account? "+result); // expected false
+		
+		result = isEuroAccount.or(isHealthyAccount).test(account);
+		System.out.println("\tIs this a euro OR healthy account? "+result); // expected true
 	}
 	
-	private static void biConsumer() {
-		/*
-		 * BiConsumer<T, U> methods: 
-		 * (same as Consumer<T>)
-		 */
-		String str = "example";
-		System.out.print("Example for BiConsumer: ");
-		biConsumer.accept(str, 4);
-		
-		System.out.print("Example for BiConsumer using chaining: ");
-		biConsumer.andThen(biConsumerPost).accept("with other "+str, 4);
+	/*
+	 * BiPredicate<T, U> methods.
+	 * (same as Predicate<T>)
+	 */
+	private static void biPredicate_isHolderOwnerOfAccount() {
+    	Account account = Factory.getAccountsWithHolders().get(0);
+		Holder holder = account.getHolders().get(0);
+
+		boolean result = isOwner.test(holder, account);
+		System.out.println("BiPredicate:\n\tIs this holder owner of this account? "+result); // expected true
 	}
 	
-	private static void predicate() {
-		/*
-		 * Predicate<T> methods.
-		 * - test(T param) : to input param
-		 * - and(Predicate<? super T> pred) : AND operation with other Predicate, performing chaining
-		 * - or(Perdicate<? super T> pred) : OR operation with other Predicate, performing chaining
-		 */
-		Integer num = 8;
-		boolean result = isEven.test(num);
-		System.out.println("Example for Predicate: "+result); // expected true
-	
-		result = isEven.and(isBiggerThanTen).test(num);
-		System.out.println("Example for Predicate using AND chaining: "+result); // expected false
+	/*
+	 * Function<T, U> methods.
+	 * - apply(T param) : to receive the param
+	 * - compose(Function <?, ?> f) : function to be executed after the first one
+	 * - andThen(Function <?, ?> f) : function to be executed before the first one
+	 */
+	private static void function_holderData() {
+		Account account = Factory.getAccountsWithHolders().get(2);
 		
-		result = isEven.or(isBiggerThanTen).test(num);
-		System.out.println("Example for Predicate using OR chaining: "+result); // expected true
+		Holder holder = getFirstHolder.apply(account);
+		System.out.println("Function:\n\tFirst holder of this account: "+holder);
+
 	}
 	
-	private static void biPredicate() {
-		/*
-		 * BiPredicate<T, U> methods.
-		 * (same as Predicate<T>)
-		 */
-		String s1 = "Example";
-		String s2 = "Longest example";
-		boolean result = areEquals.test(s1, s2);
-		System.out.println("Example for BiPredicate: "+result); // expected false
-		
-		result = areEquals.or(leftSmallerThanRight).test(s1, s2); // expected true;
-		System.out.println("Example for BiPredicate using OR chaining: "+result); // expected true
-	}
 	
-	private static void function() {
-		/*
-		 * Function<T, U> methods.
-		 * - apply(T param) : to receive the param
-		 * - compose(Function <?, ?> f) : function to be executed after the first one
-		 * - andThen(Function <?, ?> f) : function to be executed before the first one
-		 */
-		Integer i = 5;
-		Integer sum = increaseOne.apply(i);
-		System.out.println("Example for Function: "+sum); // expected 6
+	/*
+	 * BiFunction<T, U> methods. apply(T param) : to receive the param
+	 * - andThen(Function <?> f) : function to be executed over the result of the
+	 * - applied bifunciton
+	 */
+	private static void biFunction_changeAccountCurrency() {
+		Account account = Factory.getAccountsWithHolders().get(1);
+		System.out.print("BiFunction:\n\tOriginal account: "+account); 
+		account = changeCurrency.apply(account, "EUR");
+		System.out.println("\n\tAccount after change currency: "+account); 
 		
-		// increaseOne is done AFTER duplicate
-		sum = duplicate.andThen(increaseOne).apply(i);
-		System.out.println("Example for Function using andThen chaining: "+sum); // expected 11
-		
-		// increaseOne is done BEFORE duplicate
-		sum = duplicate.compose(increaseOne).apply(i);
-		System.out.println("Example for Function using compose chaining: "+sum); // expected 12
-	}
-	
-	private static void biFunction() {
-		/*
-		 * BiFunction<T, U> methods. apply(T param) : to receive the param
-		 * - andThen(Function <?> f) : function to be executed over the result of the
-		 * - applied bifunciton
-		 */
-		Integer i1 = 5;
-		Integer i2 = 7;
-		Integer sum = add.apply(i1, i2);
-		System.out.println("Example for BiFunction: "+sum); // expected 6
-		
-		// increaseOne is done AFTER add
-		sum = add.andThen(increaseOne).apply(i1, i2);
-		System.out.println("Example for Function using andThen chaining: "+sum); // expected 11
 	}
 
-	private static void unaryOperatorAndBinaryOperator() {
+	/*
+	 * UnaryOperator<T> methods. (same as Function)
+	 */
+	private static void unaryOperatorWithAndThenAndCompose_calculateTax(){ // TODO
+		Double balance = 1000.0;
+		Double net = aTax.apply(balance);
+		System.out.print(String.format("UnaryOperator:\n\tBalance %f after tax A: %f", balance, net));
+		Double secNet = aTax.andThen(bTax).apply(balance);
+		System.out.print(String.format("\n\tBalance %f after tax A and then after tax B: %f", balance, secNet));
+		Double thdNet = aTax.compose(bTax).apply(balance);
+		System.out.println(String.format("\n\tBalance %f after tax B and then after tax A: %f", balance, thdNet));
+
+	}
 		
-		/*
-		 * UnaryOperator<T, methods.
-		 * (same as Function)
-		 */
-		Integer i = 5;
-		Integer sum = increaseOneUO.apply(i);
-		System.out.println("Example for UnaryOperator: "+sum); // expected 6
+	/*
+	 * BinaryOperator<T, methods.
+	 * (same as BiFunction)
+	 */
+	private static void binaryOperator_addSalary(){ // TODO	
+		Double initialBalance = 20000.0;
+		Double salary = 1321.75;
 		
-		// increaseOne is done AFTER duplicate
-		sum = duplicate.andThen(increaseOneUO).apply(i); // Same uses
-		System.out.println("Example for UnaryOperator using andThen chaining: "+sum); // expected 11
+		Double sum = addSalary.apply(initialBalance, salary);
+		System.out.println(String.format("BinaryOperator:\n\tInitial balance %f plus the salary: %f ", initialBalance, sum));
 		
-		// increaseOne is done BEFORE duplicate
-		sum = duplicate.compose(increaseOneUO).apply(i);
-		System.out.println("Example for UnaryOperator using compose chaining: "+sum); // expected 12
-		
-		/*
-		 * BinaryOperator<T, methods.
-		 * (same as BiFunction)
-		 */
-		
-		Integer i1 = 5;
-		Integer i2 = 7;
-		sum = addBO.apply(i1, i2);
-		System.out.println("Example for BinaryOperator: "+sum); // expected 6
-		
-		// increaseOne is done AFTER add
-		sum = addBO.andThen(increaseOneUO).apply(i1, i2);
-		System.out.println("Example for BinaryOperator using andThen chaining: "+sum); // expected 11
 	}
 
-	private static void supplier() {
+	private static void supplier_accountConstructor() {
 		/*
 		 * Supplier<T> methods.
 		 * - get() : Perform and return
 		 */
-
-		String str = exampleString.get();
-		System.out.println("Example for Supplier: "+str); // expected "example"
+		Account account = emptyAccounContructor.get();
+		Account def = defaultAccounContructor.get();
+		
+		System.out.print("Supplier:\n\tNew empty account: "+account);
+		System.out.println("\n\tNew default account: "+def);
 	}
 	
 }

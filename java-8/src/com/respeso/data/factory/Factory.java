@@ -17,11 +17,11 @@ public class Factory {
 		
 		List<Holder> holders = getHolders();
 		
-		accounts.add(new Account("A001", "EUR", 18000L, false, holders.get(0)));
-		accounts.add(new Account("A002", "USD", 21000L, false, holders.get(1)));
-		accounts.add(new Account("A003-SHARED", "EUR", 61000L, true, holders.get(2), holders.get(3)));
-		accounts.add(new Account("A004", "EUR", 33000L, false, holders.get(2)));
-		accounts.add(new Account("A005", "EUR", 45000L, false, holders.get(3)));
+		accounts.add(new Account("A001", "EUR", 18000.0, false, holders.get(0)));
+		accounts.add(new Account("A002", "USD", 21000.0, false, holders.get(1)));
+		accounts.add(new Account("A003-SHARED", "EUR", 61000.0, true, holders.get(2), holders.get(3)));
+		accounts.add(new Account("A004", "EUR", 33000.0, false, holders.get(2)));
+		accounts.add(new Account("A005", "EUR", 45000.0, false, holders.get(3)));
 		
 		return accounts;
 	}
