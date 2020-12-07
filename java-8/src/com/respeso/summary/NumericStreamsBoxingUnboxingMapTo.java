@@ -31,7 +31,7 @@ public class NumericStreamsBoxingUnboxingMapTo {
         .boxed() //Stream<Integer>
         //all the elements will be passed one by one to get to the result as the collection.
         .collect(Collectors.toList());
-		System.out.println("Boxing Integer list: "+ integers);
+		System.out.println("Boxing Integer list (boxed()): "+ integers);
 	
 		/*
 		 * Unboxing. Wrapper to primitive.
