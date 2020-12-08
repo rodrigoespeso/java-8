@@ -5,9 +5,12 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -142,6 +145,81 @@ public class StreamsTerminalOperations {
 		System.out.println("averagingLong(): "+avgLong);
 		System.out.println("averagingDouble(): "+avgDouble);
 		
+		/*
+		 * groupingBy() 
+		 * 		This collector is equivalent to the groupBy() operation in SQL.
+		 * 		Used to group the elements based on a property.
+		 * 		The output of the groupingBy() is going to be a Map<K,V>
+		 * 		There are three different versions of groupingBy().
+		 * 		'classifier' is the key
+		 * 		'downstream' (collector) is the value
+		 * 		'supplier' defines the type of the value
+		 * 
+		 * groupingBy(classifier)
+		 */
+		Map<String, List<Holder>> genderGroup = Factory.getHolders().stream()
+				.collect(Collectors.groupingBy(Holder::getGender));
+		System.out.println("groupingBy(classifier): Gender group:\n\t"+genderGroup);
+
+		Map<String, List<Holder>> customGroup = Factory.getHolders().stream()
+				.collect(Collectors.groupingBy(h -> h.getAge()<= 35 ? "YOUNG CLIENT" : "NORMAL CLIENT"));
+		System.out.println("groupingBy(classifier): Age group:\n\t"+customGroup);
+
+		
+		/*
+		 * groupingBy(classifier, downstream) - 2 collectors
+		 */
+		Map<Boolean, Map<Object, List<Account>>> twoLevelGroup = Factory.getAccountsWithHolders().stream()
+		.collect(Collectors.groupingBy(Account::getIsShared, Collectors.groupingBy(a -> a.getBalance()>=30000 ? "HEALTHY" : "NOT")));
+		System.out.println("groupingBy(classifier, downstream): Two level group, shared and healthy:\n\t"+twoLevelGroup);
+
+		Map<Boolean, Double> sumOfSTypesOfAccounts = Factory.getAccountsWithHolders().stream()
+				.collect(Collectors.groupingBy(Account::getIsShared, Collectors.summingDouble(Account::getBalance)));
+		System.out.println("groupingBy(classifier, downstream): Two level group 2:\n\t"+sumOfSTypesOfAccounts);
+		
+		
+		/*
+		 * groupingBy(classifier, supplier, downstream)
+		 * 1 param is the key, 2 the type of output, 3 outputvalue
+		 */
+		LinkedHashMap<String, Set<Holder>> threeParamGroup = Factory.getHolders().stream()
+				.collect(Collectors.groupingBy(Holder::getName, LinkedHashMap::new, toSet()));
+		System.out.println("groupingBy(classifier, supplier, downstream): \n\t"+threeParamGroup);
+		
+		/*
+		 * groupingBy() with maxBy() and minBy() - two arg version
+		 */
+		 // Get the max account of all healthy and not healthy accounts
+		Map<String, Optional<Account>> maxOfHealthyAndNot = Factory.getAccountsWithHolders().stream()
+				.collect(Collectors.groupingBy(a -> a.getBalance() >= 30000 ? "HEALTHY" : "NOT",
+						Collectors.maxBy(Comparator.comparing(Account::getBalance)))); 
+		System.out.println("groupingBy(classifier, downstream): max account of all healthy and not healthy accounts:\n\t"+maxOfHealthyAndNot);
+		
+		// we can avoid the Optional
+		Map<String, Account> maxOfHealthyAndNot2 = Factory.getAccountsWithHolders().stream()
+				.collect(Collectors.groupingBy(a -> a.getBalance() >= 30000 ? "HEALTHY" : "NOT",
+						Collectors.collectingAndThen(Collectors.maxBy(Comparator.comparing(Account::getBalance)), Optional::get))); 
+		System.out.println("groupingBy(classifier, downstream): max account of all healthy and not healthy accounts no optional):\n\t"+maxOfHealthyAndNot2);
+		
+		/*
+		 * partitioningBy() 
+		 * 		This collector is also a kind of groupingBy().
+		 * 		Accepts a predicate as an input. 
+		 * 		Return type of the collector is going to be Map<K,V>
+		 * 		The key of the return type is going to be a Boolean.
+		 * 		There are two different versions of partitioningBy()
+		 * 		partitioningBy(predicate), partitioningBy(predicate,downstream) // downstream -> could be of any
+		 *		collector
+		 */
+		Predicate<Account> predicate = FunctionalInterfaces.isEuroAccount;
+		Map<Boolean, List<Account>> euroGroupAccounts = Factory.getAccountsWithHolders().stream()
+				.collect(Collectors.partitioningBy(predicate));
+		System.out.println("partitioningBy(predicate): 'is Euro account?' group: \n\t"+ euroGroupAccounts);
+
+		Map<Boolean, Set<Account>> euroGroupAccountsSet = Factory.getAccountsWithHolders().stream()
+				.collect(Collectors.partitioningBy(predicate, Collectors.toSet()));
+		System.out.println("partitioningBy(predicate,downstream): 'is Euro account?' group (set): \n\t"+ euroGroupAccounts);
+
 	}
 
 }

@@ -8,13 +8,15 @@ public class Holder {
 	private Integer id;
 	private String name;
 	private String lastName;
+	private String gender;
 	private Integer age;
 	private List<String> phoneNumbers;
 	
-	public Holder(Integer id, String name, String lastName, Integer age, String... phoneNumbers) {
+	public Holder(Integer id, String name, String lastName, String gender, Integer age, String... phoneNumbers) {
 		this.id = id;
 		this.name = name;
 		this.lastName = lastName;
+		this.gender = gender;
 		this.age = age;
 		this.phoneNumbers = Arrays.asList(phoneNumbers);
 	}
@@ -36,6 +38,12 @@ public class Holder {
 	}
 	public void setPhoneNumbers(List<String> phoneNumbers){
 		this.phoneNumbers = phoneNumbers;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	public Integer getAge() {
 		return age;

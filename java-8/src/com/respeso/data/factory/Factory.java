@@ -33,10 +33,10 @@ public class Factory {
 		
 		List<Holder> holders = new ArrayList<>();
 	
-		holders.add(new Holder(1, "Dwayne", "McEnroe", 27, "666141111", "666141222"));
-		holders.add(new Holder(2, "Lara", "Smith", 31, "633010333", "602011444"));
-		holders.add(new Holder(3, "Jason", "Jackson", 58, "666141555"));
-		holders.add(new Holder(4, "Marylin", "Jackson", 58, "666001666"));
+		holders.add(new Holder(1, "Dwayne", "McEnroe", "M", 27, "666141111", "666141222"));
+		holders.add(new Holder(2, "Lara", "Smith", "F", 31, "633010333", "602011444"));
+		holders.add(new Holder(3, "Jason", "Jackson", "M", 58, "666141555"));
+		holders.add(new Holder(4, "Marylin", "Jackson", "F", 58, "666001666"));
 		
 		return holders;
 	}
