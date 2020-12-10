@@ -6,7 +6,7 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
-/*
+/**
  * Java 8 Numeric Streams. Use examples of:
  * 
  * boxing:
@@ -20,6 +20,8 @@ import java.util.stream.LongStream;
  * 		Convert a numeric stream to a Long Stream.
  * mapToDouble():
  * 		Convert a numeric stream to a Double Stream.
+ * 
+ * @author Rodrigo Espeso
  */
 public class NumericStreamsBoxingUnboxingMapTo {
 	

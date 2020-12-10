@@ -6,7 +6,7 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
-/*
+/**
  * Java 8 Numeric Streams. Use examples of:
  * 
  * range()
@@ -18,6 +18,7 @@ import java.util.stream.LongStream;
  * min()
  * average()
  * 
+ * @author Rodrigo Espeso
  */
 public class NumericStreams {
 	public static void main(String[] args) {
