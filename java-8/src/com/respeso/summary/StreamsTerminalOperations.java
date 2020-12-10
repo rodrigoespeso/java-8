@@ -36,16 +36,7 @@ import com.respeso.data.factory.Factory;
  * summingInt(), summingLong(), summingDouble()
  * averagingInt(), averagingLong(), averagingDouble()
  * groupingBy() 
- * 		This collector is equivalent to the groupBy() operation in SQL.
- * 		Used to group the elements based on a property.
- * 		The output of the groupingBy() is going to be a Map<K,V>
- * 		There are three different versions of groupingBy().
  * partitioningBy() 
- * 		This collector is also a kind of groupingBy().
- * 		Accepts a predicate as an input. 
- * 		Return type of the collector is going to be Map<K,V>
- * 		The key of the return type is going to be a Boolean.
- * 		There are two different versions of partitioningBy()
  * 
  */
 public class StreamsTerminalOperations {
