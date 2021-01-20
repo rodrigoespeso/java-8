@@ -137,7 +137,7 @@ public class FunctionalInterfaces{
     	Holder holder = Factory.getHolders().get(0);
     	System.out.print("Consumer 1:\n\t");
     	completeName.accept(holder);
-    	System.out.print("\nConsumer 2 (andThen)\n\t");
+    	System.out.print("\nConsumer 2 (andThen):\n\t");
     	completeName.andThen(concatDetail).accept(holder);
 	}
 	
@@ -162,7 +162,7 @@ public class FunctionalInterfaces{
 	 */
 	private static void predicate_isEuroAccountAndHealthy() {
 		Account account = Factory.getAccountsWithHolders().get(0);
-		System.out.println("\nPredicate: Show account info: "+account);
+		System.out.println("\nPredicate:\n\tShow account info: "+account);
 		boolean result = isEuroAccount.test(account);
 		System.out.println("\tIs this a euro account? "+result); // expected true
 	

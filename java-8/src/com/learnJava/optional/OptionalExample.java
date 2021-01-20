@@ -2,7 +2,6 @@ package com.learnJava.optional;
 
 import com.learnJava.data.Student;
 import com.learnJava.data.StudentDataBase;
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
 
 import java.util.Optional;
 
@@ -13,9 +12,9 @@ public class OptionalExample {
        // Student student = StudentDataBase.studentSupplier.get();
         Student student = null;
         if(student!=null){
-            return  student.getName();
+            return student.getName();
         }else{
-            return  null;
+            return null;
         }
     }
 

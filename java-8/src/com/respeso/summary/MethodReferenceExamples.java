@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import com.learnJava.data.Student;
+import com.learnJava.data.StudentDataBase;
 
 public class MethodReferenceExamples {
 	
@@ -33,7 +34,18 @@ public class MethodReferenceExamples {
 	Predicate<String> isNullOrEmpty = MethodReferenceExamples::isNullOrEmpty; // s -> isNullOrEmtpy(s)
 	
 	public static void main (String[] args) {
-		printConsumer.accept("example");
+		
+		System.out.print("Consumer 1 (Method Reference):\n\t");
+		printConsumer.accept("example"); // prints 'example'
+		
+		
+		Student s = StudentDataBase.studentSupplier.get();
+		System.out.print("Consumer 2 (Method Reference):\n\t");
+		c3.accept(s);	
+		
+		System.out.print("Function (Method Reference):\n\t");
+		printConsumer.accept(toUpperCase.apply("this was not in capitol"));
+		
 		
 		/*
 		 * Effectively final. Advantages:
