@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 import com.learnJava.data.Student;
 import com.learnJava.data.StudentDataBase;
 
-public class MethodReferenceExamples {
+public class MethodReferences {
 	
 	/*
 	 * Method References. Exercises.
@@ -31,7 +31,7 @@ public class MethodReferenceExamples {
 	/*
 	 * Refactor
 	 */
-	Predicate<String> isNullOrEmpty = MethodReferenceExamples::isNullOrEmpty; // s -> isNullOrEmtpy(s)
+	Predicate<String> isNullOrEmpty = MethodReferences::isNullOrEmpty; // s -> isNullOrEmtpy(s)
 	
 	public static void main (String[] args) {
 		
