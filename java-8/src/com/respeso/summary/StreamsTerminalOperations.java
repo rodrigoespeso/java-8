@@ -20,7 +20,7 @@ import com.respeso.data.Holder;
 import com.respeso.data.factory.Factory;
 
 /*
- * Java 8 Terminal operations.
+ * Java 8 Terminal operations. Exercises:
  * 
  * Terminal Operations collects the data for you.
  * Terminal Operations starts the whole stream pipeline.
@@ -47,54 +47,27 @@ public class StreamsTerminalOperations {
 		 * elements in the stream. This method has three different overloaded
 		 * versions.
 		 */
-		String joining = Factory.getHolders().stream().map(Holder::getName)
-				.collect(Collectors.joining());
-		System.out.println("joining() simple: " + joining);
-
-		String joining2 = Factory.getHolders().stream().map(Holder::getName)
-				.collect(Collectors.joining(", "));
-		System.out.println("joining() with delimiters: " + joining2);
-
-		String joining3 = Factory.getHolders().stream().map(Holder::getName)
-				.collect(Collectors.joining(", ", "{", "}"));
-		System.out.println("joining() complete: " + joining3);
-		System.out.println();
+		joining_formatingANameList();
 		
 		/*
 		 * counting() Collector that returns the total number of elements as a
 		 * result.
 		 */
-		long count = Factory.getAccountsWithHolders().stream()
-				.collect(Collectors.counting());
-		System.out.println("count(): The total of accounts is " + count);
-		System.out.println();
+		count_countingTheTotalOfHolders();
 		
 		/*
 		 * mapping() This collector applies a transformation function first and
 		 * then collects the data in a collection( could be any type of
 		 * collection)
 		 */
-		Set<String> namesSet = Factory.getHolders().stream()
-				// this avoids the additional map intermediate operation.
-				.collect(mapping(Holder::getName, toSet()));
-
-		System.out.println("mapping(): Names set: " + namesSet);
-
-		List<String> namesList = Factory.getHolders().stream()
-				// this avoids the additional map intermediate operation.
-				.collect(mapping(Holder::getName, toList()));
-
-		System.out.println("mapping(): Names list: " + namesList);
-		System.out.println();
+		mapping_getHolderListToSetAndToList();
+		
 		/*
 		 * maxBy()
 		 * 		This collector is used in conjunction with comparator, as an input param. 
 		 * 		Returns the max element based on the property passed to the comparator. 
 		 */
-		Optional<Account> maxAccount = Factory.getAccountsWithHolders().stream()
-				.collect(Collectors.maxBy(Comparator.comparing(Account::getBalance)));
-		if(maxAccount.isPresent())
-			System.out.println("minBy(): Min balance account: " + maxAccount.get());
+		maxBy_getTheMaxBalanceAccount();
 
 		/* 
 		 * minBy()
@@ -103,38 +76,19 @@ public class StreamsTerminalOperations {
 		 * 		the comparator.
 		 * 
 		 */
-		Optional<Account> minAccount = Factory.getAccountsWithHolders().stream()
-                .collect(Collectors.minBy(Comparator.comparing(Account::getBalance)));
-		if(minAccount.isPresent())
-		System.out.println("minBy(): Min balance account: " + minAccount.get());
+		minBy_getTheMinBalanceAccount();
 		
 		/*
 		 * summingInt(), summingLong(), summingDouble()
 		 * 		This collector returns the sum as a result.
 		 */
-		Integer sumInt = IntStream.rangeClosed(1, 10).boxed()
-			.collect(Collectors.summingInt(Integer::intValue));
-		Long sumLong = LongStream.rangeClosed(1, 10).boxed()
-				.collect(Collectors.summingLong(Long::longValue));
-		Double sumDouble = IntStream.rangeClosed(1, 10).asDoubleStream().boxed()
-				.collect(Collectors.summingDouble(Double::doubleValue));
-		System.out.println("summingInt(): "+sumInt);
-		System.out.println("summingLong(): "+sumLong);
-		System.out.println("summingDouble(): "+sumDouble);
+		summing_summatoryOfIntegerLongAndDoubleOfARange();
 		
 		/*
 		 * averagingInt(), averagingLong, averagingDouble()
 		 * 		This collector returns the average as a result.
 		 */
-		Double avgInt = IntStream.rangeClosed(1, 10).boxed()
-				.collect(Collectors.averagingInt(Integer::intValue));
-		Double avgLong = LongStream.rangeClosed(1, 10).boxed()
-				.collect(Collectors.averagingLong(Long::longValue));
-		Double avgDouble = IntStream.rangeClosed(1, 10).asDoubleStream().boxed()
-				.collect(Collectors.averagingDouble(Double::doubleValue));
-		System.out.println("averagingInt(): "+avgInt);
-		System.out.println("averagingLong(): "+avgLong);
-		System.out.println("averagingDouble(): "+avgDouble);
+		avg_averageOfInteterLongAndDoubleOfARange();
 		
 		/*
 		 * groupingBy() 
@@ -148,49 +102,26 @@ public class StreamsTerminalOperations {
 		 * 
 		 * groupingBy(classifier)
 		 */
-		Map<String, List<Holder>> genderGroup = Factory.getHolders().stream()
-				.collect(Collectors.groupingBy(Holder::getGender));
-		System.out.println("groupingBy(classifier): Gender group:\n\t"+genderGroup);
-
-		Map<String, List<Holder>> customGroup = Factory.getHolders().stream()
-				.collect(Collectors.groupingBy(h -> h.getAge()<= 35 ? "YOUNG CLIENT" : "NORMAL CLIENT"));
-		System.out.println("groupingBy(classifier): Age group:\n\t"+customGroup);
+		groupingBy_genderUsingClassifier();
 
 		
 		/*
 		 * groupingBy(classifier, downstream) - 2 collectors
 		 */
-		Map<Boolean, Map<Object, List<Account>>> twoLevelGroup = Factory.getAccountsWithHolders().stream()
-		.collect(Collectors.groupingBy(Account::getIsShared, Collectors.groupingBy(a -> a.getBalance()>=30000 ? "HEALTHY" : "NOT")));
-		System.out.println("groupingBy(classifier, downstream): Two level group, shared and healthy:\n\t"+twoLevelGroup);
-
-		Map<Boolean, Double> sumOfSTypesOfAccounts = Factory.getAccountsWithHolders().stream()
-				.collect(Collectors.groupingBy(Account::getIsShared, Collectors.summingDouble(Account::getBalance)));
-		System.out.println("groupingBy(classifier, downstream): Two level group 2:\n\t"+sumOfSTypesOfAccounts);
+		groupingBy_usingClassifierAndDownstrean_bySharedAndHealthyAccount();
 		
 		
 		/*
 		 * groupingBy(classifier, supplier, downstream)
 		 * 1 param is the key, 2 the type of output, 3 outputvalue
 		 */
-		LinkedHashMap<String, Set<Holder>> threeParamGroup = Factory.getHolders().stream()
-				.collect(Collectors.groupingBy(Holder::getName, LinkedHashMap::new, toSet()));
-		System.out.println("groupingBy(classifier, supplier, downstream): \n\t"+threeParamGroup);
+		groupingBy_ClassifierSupplierAndDownstream_byName();
 		
 		/*
 		 * groupingBy() with maxBy() and minBy() - two arg version
 		 */
 		 // Get the max account of all healthy and not healthy accounts
-		Map<String, Optional<Account>> maxOfHealthyAndNot = Factory.getAccountsWithHolders().stream()
-				.collect(Collectors.groupingBy(a -> a.getBalance() >= 30000 ? "HEALTHY" : "NOT",
-						Collectors.maxBy(Comparator.comparing(Account::getBalance)))); 
-		System.out.println("groupingBy(classifier, downstream): max account of all healthy and not healthy accounts:\n\t"+maxOfHealthyAndNot);
-		
-		// we can avoid the Optional
-		Map<String, Account> maxOfHealthyAndNot2 = Factory.getAccountsWithHolders().stream()
-				.collect(Collectors.groupingBy(a -> a.getBalance() >= 30000 ? "HEALTHY" : "NOT",
-						Collectors.collectingAndThen(Collectors.maxBy(Comparator.comparing(Account::getBalance)), Optional::get))); 
-		System.out.println("groupingBy(classifier, downstream): max account of all healthy and not healthy accounts no optional):\n\t"+maxOfHealthyAndNot2);
+		groupingByMaxMinBy_maxAccountHealthyOrNot();
 		
 		/*
 		 * partitioningBy() 
@@ -202,15 +133,133 @@ public class StreamsTerminalOperations {
 		 * 		partitioningBy(predicate), partitioningBy(predicate,downstream) // downstream -> could be of any
 		 *		collector
 		 */
+		partitioningBy_euroAccounts();
+
+	}
+
+	private static void joining_formatingANameList() {
+		String joining = Factory.getHolders().stream().map(Holder::getName)
+				.collect(Collectors.joining());
+		System.out.println("joining() simple: " + joining);
+
+		String joining2 = Factory.getHolders().stream().map(Holder::getName)
+				.collect(Collectors.joining(", "));
+		System.out.println("joining() with delimiters: " + joining2);
+
+		String joining3 = Factory.getHolders().stream().map(Holder::getName)
+				.collect(Collectors.joining(", ", "{", "}"));
+		System.out.println("joining() complete: " + joining3);
+		System.out.println();
+	}
+
+	private static void count_countingTheTotalOfHolders() {
+		long count = Factory.getAccountsWithHolders().stream()
+				.collect(Collectors.counting());
+		System.out.println("count(): The total of accounts is " + count);
+		System.out.println();
+	}
+
+	private static void mapping_getHolderListToSetAndToList() {
+		Set<String> namesSet = Factory.getHolders().stream()
+				// this avoids the additional map intermediate operation.
+				.collect(mapping(Holder::getName, toSet()));
+	
+		System.out.println("mapping(): Names set: " + namesSet);
+	
+		List<String> namesList = Factory.getHolders().stream()
+				// this avoids the additional map intermediate operation.
+				.collect(mapping(Holder::getName, toList()));
+	
+		System.out.println("mapping(): Names list: " + namesList);
+		System.out.println();
+	}
+
+	private static void maxBy_getTheMaxBalanceAccount() {
+		Optional<Account> maxAccount = Factory.getAccountsWithHolders().stream()
+				.collect(Collectors.maxBy(Comparator.comparing(Account::getBalance)));
+		if(maxAccount.isPresent())
+			System.out.println("minBy(): Max balance account: " + maxAccount.get());
+	}
+
+	private static void minBy_getTheMinBalanceAccount() {
+		Optional<Account> minAccount = Factory.getAccountsWithHolders().stream()
+	            .collect(Collectors.minBy(Comparator.comparing(Account::getBalance)));
+		if(minAccount.isPresent())
+		System.out.println("minBy(): Min balance account: " + minAccount.get());
+	}
+
+	private static void summing_summatoryOfIntegerLongAndDoubleOfARange() {
+		Integer sumInt = IntStream.rangeClosed(1, 10).boxed()
+			.collect(Collectors.summingInt(Integer::intValue));
+		Long sumLong = LongStream.rangeClosed(1, 10).boxed()
+				.collect(Collectors.summingLong(Long::longValue));
+		Double sumDouble = IntStream.rangeClosed(1, 10).asDoubleStream().boxed()
+				.collect(Collectors.summingDouble(Double::doubleValue));
+		System.out.println("summingInt(): "+sumInt);
+		System.out.println("summingLong(): "+sumLong);
+		System.out.println("summingDouble(): "+sumDouble);
+	}
+
+	private static void avg_averageOfInteterLongAndDoubleOfARange() {
+		Double avgInt = IntStream.rangeClosed(1, 10).boxed()
+				.collect(Collectors.averagingInt(Integer::intValue));
+		Double avgLong = LongStream.rangeClosed(1, 10).boxed()
+				.collect(Collectors.averagingLong(Long::longValue));
+		Double avgDouble = IntStream.rangeClosed(1, 10).asDoubleStream().boxed()
+				.collect(Collectors.averagingDouble(Double::doubleValue));
+		System.out.println("averagingInt(): "+avgInt);
+		System.out.println("averagingLong(): "+avgLong);
+		System.out.println("averagingDouble(): "+avgDouble);
+	}
+
+	private static void groupingBy_genderUsingClassifier() {
+		Map<String, List<Holder>> genderGroup = Factory.getHolders().stream()
+				.collect(Collectors.groupingBy(Holder::getGender));
+		System.out.println("groupingBy(classifier): Gender group:\n\t"+genderGroup);
+	
+		Map<String, List<Holder>> customGroup = Factory.getHolders().stream()
+				.collect(Collectors.groupingBy(h -> h.getAge()<= 35 ? "YOUNG CLIENT" : "NORMAL CLIENT"));
+		System.out.println("groupingBy(classifier): Age group:\n\t"+customGroup);
+	}
+
+	private static void groupingBy_usingClassifierAndDownstrean_bySharedAndHealthyAccount() {
+		Map<Boolean, Map<Object, List<Account>>> twoLevelGroup = Factory.getAccountsWithHolders().stream()
+		.collect(Collectors.groupingBy(Account::getIsShared, Collectors.groupingBy(a -> a.getBalance()>=30000 ? "HEALTHY" : "NOT")));
+		System.out.println("groupingBy(classifier, downstream): Two level group, shared and healthy:\n\t"+twoLevelGroup);
+	
+		Map<Boolean, Double> sumOfSTypesOfAccounts = Factory.getAccountsWithHolders().stream()
+				.collect(Collectors.groupingBy(Account::getIsShared, Collectors.summingDouble(Account::getBalance)));
+		System.out.println("groupingBy(classifier, downstream): Two level group 2:\n\t"+sumOfSTypesOfAccounts);
+	}
+
+	private static void groupingBy_ClassifierSupplierAndDownstream_byName() {
+		LinkedHashMap<String, Set<Holder>> threeParamGroup = Factory.getHolders().stream()
+				.collect(Collectors.groupingBy(Holder::getName, LinkedHashMap::new, toSet()));
+		System.out.println("groupingBy(classifier, supplier, downstream): \n\t"+threeParamGroup);
+	}
+
+	private static void groupingByMaxMinBy_maxAccountHealthyOrNot() {
+		Map<String, Optional<Account>> maxOfHealthyAndNot = Factory.getAccountsWithHolders().stream()
+				.collect(Collectors.groupingBy(a -> a.getBalance() >= 30000 ? "HEALTHY" : "NOT",
+						Collectors.maxBy(Comparator.comparing(Account::getBalance)))); 
+		System.out.println("groupingBy(classifier, downstream): max account of all healthy and not healthy accounts:\n\t"+maxOfHealthyAndNot);
+		
+		// we can avoid the Optional
+		Map<String, Account> maxOfHealthyAndNot2 = Factory.getAccountsWithHolders().stream()
+				.collect(Collectors.groupingBy(a -> a.getBalance() >= 30000 ? "HEALTHY" : "NOT",
+						Collectors.collectingAndThen(Collectors.maxBy(Comparator.comparing(Account::getBalance)), Optional::get))); 
+		System.out.println("groupingBy(classifier, downstream): max account of all healthy and not healthy accounts no optional):\n\t"+maxOfHealthyAndNot2);
+	}
+
+	private static void partitioningBy_euroAccounts() {
 		Predicate<Account> predicate = FunctionalInterfaces.isEuroAccount;
 		Map<Boolean, List<Account>> euroGroupAccounts = Factory.getAccountsWithHolders().stream()
 				.collect(Collectors.partitioningBy(predicate));
 		System.out.println("partitioningBy(predicate): 'is Euro account?' group: \n\t"+ euroGroupAccounts);
-
+	
 		Map<Boolean, Set<Account>> euroGroupAccountsSet = Factory.getAccountsWithHolders().stream()
 				.collect(Collectors.partitioningBy(predicate, Collectors.toSet()));
-		System.out.println("partitioningBy(predicate,downstream): 'is Euro account?' group (set): \n\t"+ euroGroupAccounts);
-
+		System.out.println("partitioningBy(predicate,downstream): 'is Euro account?' group (set): \n\t"+ euroGroupAccountsSet);
 	}
 
 }

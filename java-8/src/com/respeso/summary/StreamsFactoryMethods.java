@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /*
- * Java 8 Streams. Use examples of:
+ * Java 8 Streams. Exercises:
  * 
  * of()
  * iterate()

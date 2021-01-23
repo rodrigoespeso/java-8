@@ -12,7 +12,7 @@ import com.learnJava.data.StudentDataBase;
 public class MethodReferenceExamples {
 	
 	/*
-	 * Method References.
+	 * Method References. Exercises.
 	 * Used to refactor lambdas.
 	 */
 	
@@ -20,7 +20,7 @@ public class MethodReferenceExamples {
 	static Consumer<String> printConsumer = System.out::println; // s -> System.out.println(s)
 	static Function<String,String> toUpperCase = String::toUpperCase; // s -> s.toUpperCase()
 	// Instance::instance-method
-	static Consumer<Student> c3 = (Student::printListOfActivities); // student -> student.printListOfActivities()
+	static Consumer<Student> printActivities = (Student::printListOfActivities); // student -> student.printListOfActivities()
 	
 	
 	/*
@@ -41,7 +41,7 @@ public class MethodReferenceExamples {
 		
 		Student s = StudentDataBase.studentSupplier.get();
 		System.out.print("Consumer 2 (Method Reference):\n\t");
-		c3.accept(s);	
+		printActivities.accept(s);	
 		
 		System.out.print("Function (Method Reference):\n\t");
 		printConsumer.accept(toUpperCase.apply("this was not in capitol"));

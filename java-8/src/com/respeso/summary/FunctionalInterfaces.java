@@ -15,7 +15,7 @@ import com.respeso.data.Holder;
 import com.respeso.data.factory.Factory;
 
 /**
- * Java 8 Functional Interfaces. 
+ * Java 8 Functional Interfaces. Exercises:
  *  
  * Consumer<>
  * BiConsumer<>
@@ -115,10 +115,11 @@ public class FunctionalInterfaces{
 	static Supplier<String> bankInfo = () -> "Union Associates BBank LLC";
     
 	public static void main(String[] args) {
-
-    	consumer_showHolderData();
+		
+		// Exercises
+		consumer_showHolderData();
     	biConsumer_showHolderInfo();
-		predicate_isEuroAccountAndHealthy();
+    	predicate_isEuroAccountAndHealthy();
     	biPredicate_isHolderOwnerOfAccount();
 		function_holderData();
 		biFunction_changeAccountCurrency();
@@ -134,11 +135,12 @@ public class FunctionalInterfaces{
 	 * - andThen(Consumer<? super T> cons) to perform chaining
 	 */
 	private static void consumer_showHolderData() {
-    	Holder holder = Factory.getHolders().get(0);
+		Holder holder = Factory.getHolders().get(0);
     	System.out.print("Consumer 1:\n\t");
     	completeName.accept(holder);
-    	System.out.print("\nConsumer 2 (andThen):\n\t");
+    	System.out.print("\nConsumer 2 (andThen):\n\t ");
     	completeName.andThen(concatDetail).accept(holder);
+    	System.out.println();
 	}
 	
 	/*
@@ -149,8 +151,9 @@ public class FunctionalInterfaces{
     	Account account = Factory.getAccountsWithHolders().get(0);
 		Holder holder = account.getHolders().get(0);
     	
-    	System.out.print("\nBiConsumer:\n\t");
+    	System.out.print("BiConsumer:\n\t");
     	holderInfo1.andThen(holderInfo2).accept(holder, account);
+    	System.out.println();
 	}	
 
 	
@@ -162,7 +165,7 @@ public class FunctionalInterfaces{
 	 */
 	private static void predicate_isEuroAccountAndHealthy() {
 		Account account = Factory.getAccountsWithHolders().get(0);
-		System.out.println("\nPredicate:\n\tShow account info: "+account);
+		System.out.println("Predicate:\n\tShow account info: "+account);
 		boolean result = isEuroAccount.test(account);
 		System.out.println("\tIs this a euro account? "+result); // expected true
 	

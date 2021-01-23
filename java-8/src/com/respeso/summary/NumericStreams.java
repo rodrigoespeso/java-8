@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 /**
- * Java 8 Numeric Streams. Use examples of:
+ * Java 8 Numeric Streams. Exercises:
  * 
  * range()
  * rangeClosed()
@@ -22,60 +22,80 @@ import java.util.stream.LongStream;
  */
 public class NumericStreams {
 	public static void main(String[] args) {
-		/*
-		 * With range() the end limit is not included in the Stream
-		 */
-		IntStream intStream = IntStream.range(1, 20);
-		
-		System.out.println("range():");
-		intStream.forEach(i -> System.out.print(i+", "));
-		System.out.println("\ncount(): "+IntStream.range(1, 20).count());
 		
 		/*
-		 * With rangeClosed() the end limit is included in the Stream
-		 */
-		IntStream intStreamClosed = IntStream.rangeClosed(1, 20);
-		
-		System.out.println("\nrangeClosed():");
-		intStreamClosed.forEach(i -> System.out.print(i+", "));
-		System.out.println("\ncount(): "+IntStream.rangeClosed(1, 20).count());
-		
-		/*
+		 * With range() the end limit is not included in the Stream.
+		 * With rangeClosed() the end limit is included in the Stream.
 		 * The same can be done with LongStream.
-		 */ 
-		
+		 */
+		range_printOpenRangeOfNumbers();
+		rangeClosed_printClosedRangeOfNumbers();
 		/*
 		 * DoubleStream does not support range methods, we can get it through IntStrean
 		 */
-		DoubleStream doubleStream = IntStream.rangeClosed(1, 20).asDoubleStream();
-		
-		System.out.println("\nDouble virtual 'rangeClosed':");
-		doubleStream.forEach(i -> System.out.print(i+", "));
-		System.out.println();
+		rangeClosedOnDouble_trick();
 		
 		/*
 		 * max(), min(), sum() return OptionalLong or OptionalInt (in each case)
 		 * average() returns OptionalDouble.
 		 */
+		max_getTheMaximunValueOfARange();
+		min_getTheMinimunValueOfARange();
+		sum_getTheSummatoryOfARange();
+		avg_getTheAverageNumberOfARange();
+		
+	}
+
+	private static void range_printOpenRangeOfNumbers() {
+
+		IntStream intStream = IntStream.range(1, 20);
+		
+		System.out.println("range():");
+		intStream.forEach(i -> System.out.print(i+", "));
+		System.out.print("\ncount(): "+IntStream.range(1, 20).count());
+	}
+
+	private static void rangeClosed_printClosedRangeOfNumbers() {
+		IntStream intStreamClosed = IntStream.rangeClosed(1, 20);
+		
+		System.out.println("\nrangeClosed():");
+		intStreamClosed.forEach(i -> System.out.print(i+", "));
+		System.out.print("\ncount(): "+IntStream.rangeClosed(1, 20).count());
+	}
+
+	private static void rangeClosedOnDouble_trick() {
+		
+		DoubleStream doubleStream = IntStream.rangeClosed(1, 20).asDoubleStream();
+		
+		System.out.println("\nDouble virtual 'rangeClosed':");
+		doubleStream.forEach(i -> System.out.print(i+", "));
+	}
+
+	private static void max_getTheMaximunValueOfARange() {
 		LongStream forMax = LongStream.rangeClosed(-5, 15);
 		OptionalLong max = forMax.max();
 		if(max.isPresent())
 			System.out.print("\nmax() of [-5, 15]: "+ max.getAsLong());
-		
+	}
+
+	private static void min_getTheMinimunValueOfARange() {
 		LongStream forMin = LongStream.rangeClosed(-5, 15);
 		OptionalLong min = forMin.min();
-		if(max.isPresent())
+		if(min.isPresent())
 			System.out.print("\nmin() of [-5, 15]: "+ min.getAsLong());
+	}
 
+	private static void sum_getTheSummatoryOfARange() {
 		LongStream forSum = LongStream.rangeClosed(-5, 15);
 		OptionalLong sum = forSum.max();
-		if(max.isPresent())
+		if(sum.isPresent())
 			System.out.print("\nsum() of [-5, 15]: "+ sum.getAsLong());
-		
+	}
+
+	private static void avg_getTheAverageNumberOfARange() {
 		LongStream forAvg = LongStream.rangeClosed(-5, 15);
 		OptionalDouble avg = forAvg.average();
-		if(max.isPresent())
+		if(avg.isPresent())
 			System.out.print("\naverage() of [-5, 15]: "+ avg.getAsDouble());
-		
 	}
 }

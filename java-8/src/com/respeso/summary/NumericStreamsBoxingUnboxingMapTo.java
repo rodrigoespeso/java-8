@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 /**
- * Java 8 Numeric Streams. Use examples of:
+ * Java 8 Numeric Streams. Exercises:
  * 
  * boxing:
  * 		Converting a primitive type to Wrapper Class type

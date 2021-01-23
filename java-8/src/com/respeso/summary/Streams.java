@@ -10,7 +10,7 @@ import com.respeso.data.Holder;
 import com.respeso.data.factory.Factory;
 
 /** 
- * Java 8 Streams.
+ * Java 8 Streams. Exercises:
  * Operations:
  * map()
  * flatMap()
