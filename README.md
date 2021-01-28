@@ -1,5 +1,5 @@
 # java-8
-This code base has all the code related to the Java 8 course.
+This code base has all the code related to the Java 8 course plus my own examples and exercises under "com.respeso" packages
 
 ### Complete Course link is available here:
 
