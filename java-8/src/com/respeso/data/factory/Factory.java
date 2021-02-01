@@ -2,11 +2,14 @@ package com.respeso.data.factory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import com.respeso.data.Account;
 import com.respeso.data.Holder;
 
 public class Factory {
+	
+	public static Supplier<Holder> holderSupplier = () -> new Holder(1, "Dwayne", "McEnroe", "M", 27, "666141111", "666141222");
 	
 	/*
 	 * Returns 5 new accounts shared between 4 different holders

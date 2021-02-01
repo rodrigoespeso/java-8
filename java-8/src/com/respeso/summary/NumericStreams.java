@@ -7,16 +7,9 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 /**
- * Java 8 Numeric Streams. Exercises:
+ * Java 8 Numeric Streams. Exercises:</br>
  * 
- * range()
- * rangeClosed()
- * count()
- * foreach()
- * sum()
- * max()
- * min()
- * average()
+ * range(), rangeClosed(), count(), foreach(), sum(), max(), min() and average()
  * 
  * @author Rodrigo Espeso
  */

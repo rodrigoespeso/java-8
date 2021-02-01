@@ -19,24 +19,27 @@ import com.respeso.data.Account;
 import com.respeso.data.Holder;
 import com.respeso.data.factory.Factory;
 
-/*
- * Java 8 Terminal operations. Exercises:
+/**
+ * Java 8 Terminal operations. Exercises.
  * 
- * Terminal Operations collects the data for you.
- * Terminal Operations starts the whole stream pipeline.
+ * Terminal Operations collects the data for you.</br>
+ * Terminal Operations starts the whole stream pipeline.</br>
  * 
- * collect()
- * 		The collect() method takes in an input of type Collector.
- *		Produces the result as per the input passed to the collect() method.
- * joining()
- * counting() 
- * mapping() 
- * maxBy() with comparator()
- * minBy() with comparator()
- * summingInt(), summingLong(), summingDouble()
- * averagingInt(), averagingLong(), averagingDouble()
- * groupingBy() 
- * partitioningBy() 
+ * collect()</br>
+ * 		&emsp;The collect() method takes in an input of type Collector.</br>
+ *		&emsp;Produces the result as per the input passed to the collect() method.</br>
+ *</br>
+ * joining(), 
+ * counting(), 
+ * mapping(), 
+ * maxBy() with comparator(), 
+ * minBy() with comparator(), 
+ * summingInt(), summingLong(), summingDouble(), 
+ * averagingInt(), averagingLong(), averagingDouble(), 
+ * groupingBy() and 
+ * partitioningBy()
+ * 
+ * @author Rodrigo Espeso
  * 
  */
 public class StreamsTerminalOperations {

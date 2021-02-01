@@ -11,9 +11,11 @@ import com.learnJava.data.StudentDataBase;
 
 public class MethodReferences {
 	
-	/*
-	 * Method References. Exercises.
+	/**
+	 * Java 8 Method References.
 	 * Used to refactor lambdas.
+	 * 
+	 * @author Rodrigo Espeso 
 	 */
 	
 	// Class::instance-method

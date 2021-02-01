@@ -1,14 +1,7 @@
 package com.learnJava.parallelstreams;
 
-import java.time.Duration;
-import java.time.LocalTime;
-import java.time.temporal.TemporalUnit;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
-
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class ParallelStreamExample {
 
@@ -41,7 +34,7 @@ public class ParallelStreamExample {
 
     public static void main(String[] args) {
 
-        System.out.println(Runtime.getRuntime().availableProcessors());
+        System.out.println("Available processors: "+Runtime.getRuntime().availableProcessors());
 
         long sequentialDuration = checkPerformanceResult(ParallelStreamExample::sum_sequential_stream,20);
         System.out.println("sequentialDuration in MilliSeconds: " + sequentialDuration);

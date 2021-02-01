@@ -15,16 +15,10 @@ import com.respeso.data.Holder;
 import com.respeso.data.factory.Factory;
 
 /**
- * Java 8 Functional Interfaces. Exercises:
- *  
- * Consumer<>
- * BiConsumer<>
- * Predicate<>
- * BiPredicate<>
- * Function<>
- * BiFunction<>
- * UnaryOperator and BinaryOperation<>
- * Supplier<>
+ * Java 8 Functional Interfaces. Exercises:</br>
+ * 
+ * Consumer<>, BiConsumer<>, Predicate<>, BiPredicate<>, Function<>, BiFunction<>,
+ * UnaryOperator, BinaryOperation<> and Supplier<>
  * 
  * @author Rodrigo Espeso
  */

@@ -9,27 +9,11 @@ import com.respeso.data.Account;
 import com.respeso.data.Holder;
 import com.respeso.data.factory.Factory;
 
-/** 
- * Java 8 Streams. Exercises:
- * Operations:
- * map()
- * flatMap()
- * distinct()
- * count()
- * sorted()
- * sorted(Comparator)
- * filter()
- * reduce()  
- * Map + Filter + Reduce Pattern
- * limit() and skip()
- * allMatch()
- * anyMatch()
- * noneMatch()
- * findAny()
- * findFirst()
- * 
- * Factory Methods:
- * of(), iterate(), generate()
+/**
+ * Java 8 Streams. Exercises:</br>
+ * map(), flatMap(), distinct(), count(), sorted(), sorted(Comparator),
+ * filter(), reduce(), Map + Filter + Reduce Pattern, limit(), skip(),
+ * allMatch(), anyMatch(), noneMatch(), findAny() and findFirst()
  * 
  * @author Rodrigo Espeso
  */

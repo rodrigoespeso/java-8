@@ -7,19 +7,19 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 /**
- * Java 8 Numeric Streams. Exercises:
+ * Java 8 Numeric Streams. Exercises:</br>
  * 
- * boxing:
- * 		Converting a primitive type to Wrapper Class type
- * unboxing:
- * 		Converting a Wrapper Class type to primitive type.
+ * boxing:</br>
+ * 		&emsp;Converting a primitive type to Wrapper Class type</br>
+ * unboxing:</br>
+ * 		&emsp;Converting a Wrapper Class type to primitive type.</br>
  * 
- * mapToObj():
- * 		Convert a each element numeric stream to some Object.
- * mapToLong():
- * 		Convert a numeric stream to a Long Stream.
- * mapToDouble():
- * 		Convert a numeric stream to a Double Stream.
+ * mapToObj():</br>
+ * 		&emsp;Convert a each element numeric stream to some Object.</br>
+ * mapToLong():</br>
+ * 		&emsp;Convert a numeric stream to a Long Stream.</br>
+ * mapToDouble():</br>
+ * 		&emsp;Convert a numeric stream to a Double Stream.</br>
  * 
  * @author Rodrigo Espeso
  */

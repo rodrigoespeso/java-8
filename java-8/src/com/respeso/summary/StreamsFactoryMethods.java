@@ -7,12 +7,12 @@ import java.util.Random;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-/*
- * Java 8 Streams. Exercises:
+/**
+ * Java 8 Streams. Exercises:</br>
  * 
- * of()
- * iterate()
- * generate()
+ * of(), iterate() and generate()
+ * 
+ * @author Rodrigo Espeso
  * 
  */
 public class StreamsFactoryMethods {
