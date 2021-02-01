@@ -3,7 +3,7 @@ package com.respeso.data;
 import java.util.Arrays;
 import java.util.List;
 
-public class Holder implements Comparable<Holder>{
+public class Holder {
 	
 	private Integer id;
 	private String name;
@@ -60,13 +60,15 @@ public class Holder implements Comparable<Holder>{
 
 	@Override
 	public String toString() {
-		return "Holder [id=" + id + ", name=" + name + ", lastName=" + lastName + ", age=" + age + ", phoneNumbers="
-				+ phoneNumbers + "]";
+		return "Holder [id=" + id + ", name=" + name + ", lastName=" + lastName + ", gender=" + gender + ", age=" + age
+				+ ", phoneNumbers=" + phoneNumbers + "]";
 	}
 
-	@Override
-	public int compareTo(Holder o) {
-		return this.id.compareTo(o.getId());
-	}
+	
+//
+//	@Override
+//	public int compareTo(Holder o) {
+//		return this.id.compareTo(o.getId());
+//	}
 	
 }

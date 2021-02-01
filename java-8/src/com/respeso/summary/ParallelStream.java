@@ -1,10 +1,12 @@
 package com.respeso.summary;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.respeso.data.Account;
+import com.respeso.data.Holder;
 import com.respeso.data.factory.Factory;
 
 /**
@@ -46,7 +48,7 @@ public class ParallelStream {
 		end = System.currentTimeMillis();
 		duration = end-start;
 		
-		System.out.println("sum() from 1 to 100.000 sequentially " + seqSum + " in "+duration+"ms");
+		System.out.println("sum() from 1 to 100,000 sequentially " + seqSum + " in "+duration+"ms");
 	}
 
 	/**
@@ -62,7 +64,7 @@ public class ParallelStream {
 		end = System.currentTimeMillis();
 		duration = end-start;
 
-		System.out.println("sum() from 1 to 100.000 parallelly " + parSum + " in "+duration+"ms");
+		System.out.println("sum() from 1 to 100,000 parallelly " + parSum + " in "+duration+"ms");
 	}
 
 	private static void sequentialStream_multipleOperationsTime() {
@@ -72,7 +74,7 @@ public class ParallelStream {
 		
 		start = System.currentTimeMillis();
 		Factory.getAccountsWithHolders().stream().map(Account::getHolders)
-				.flatMap(List::stream).distinct().sorted().collect(Collectors.toList());
+				.flatMap(List::stream).distinct().sorted(Comparator.comparing(Holder::getName)).collect(Collectors.toList());
 		end = System.currentTimeMillis();
 		duration = end-start;
 	
@@ -87,7 +89,7 @@ public class ParallelStream {
 		
 		start = System.currentTimeMillis();
 		Factory.getAccountsWithHolders().stream().parallel().map(Account::getHolders)
-				.flatMap(List::stream).distinct().sorted().collect(Collectors.toList());
+				.flatMap(List::stream).distinct().sorted(Comparator.comparing(Holder::getName)).collect(Collectors.toList());
 		end = System.currentTimeMillis();
 		duration = end-start;
 	
